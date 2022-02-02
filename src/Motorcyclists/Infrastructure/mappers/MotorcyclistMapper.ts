@@ -1,8 +1,8 @@
 import { Motorcyclist } from 'src/Motorcyclists/Domain/Motorcyclists';
 import { MotorcyclistId } from 'src/Motorcyclists/Domain/MotorcyclistId';
-import { TimeSlotId } from 'src/TimeSlot/Domain/TimeSlotId';
+import { TimeSlotId } from 'src/TimeSlots/Domain/TimeSlotId';
 import { MotorcyclistsModel } from 'src/Motorcyclists/Motorcyclists.model';
-import { TimeSlotModel } from 'src/TimeSlot/TimeSlot.model';
+import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
 
 export const MotorcyclistMapper = {
   toPersistence: (motorcyclist: Motorcyclist): MotorcyclistsModel => ({

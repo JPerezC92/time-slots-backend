@@ -1,4 +1,4 @@
-import { TimeSlotModel } from 'src/TimeSlot/TimeSlot.model';
+import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
 import { Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('Motorcyclist')

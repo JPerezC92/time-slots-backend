@@ -1,6 +1,6 @@
 import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { MotorcyclistsModel } from 'src/Motorcyclists/Motorcyclists.model';
-import { TimeSlotModel } from 'src/TimeSlot/TimeSlot.model';
+import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
 import { CustomerModel } from 'src/Customers/Infrastructure/Customer.model';
 
 @Entity('Booking')
