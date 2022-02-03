@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { TimeSlot } from './Domain/TimeSlot';
-import { TimeSlotRepository } from './Domain/TimeSlotRepository';
-import { Uow } from 'src/SharedKernel/Infrastructure/database/Uow.service';
 import { TimeSlotMapper } from './Infrastructure/mappers/TimeSlotMapper';
 import { TimeSlotModel } from './TimeSlot.model';
+import { TimeSlotRepository } from './Domain/TimeSlotRepository';
+import { Uow } from 'src/SharedKernel/Infrastructure/database/Uow.service';
 
 @Injectable()
 export class TypeormTimeSlotRepository implements TimeSlotRepository {

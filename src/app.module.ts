@@ -8,6 +8,7 @@ import { AuthenticationModule } from './Authentication/authentication.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { DatabaseModule } from './SharedKernel/Infrastructure/database/database.module';
 import { TimeSlotsModule } from './TimeSlots/time-slots.module';
+import { MotorcyclistsModule } from './motorcyclists/motorcyclists.module';
 
 @Module({
   imports: [
@@ -15,11 +16,13 @@ import { TimeSlotsModule } from './TimeSlots/time-slots.module';
     AuthenticationModule,
     BookingsModule,
     DatabaseModule,
+    MotorcyclistsModule,
     TimeSlotsModule,
     RouterModule.register([
       { path: 'auth', module: AuthenticationModule },
       { path: 'bookings', module: BookingsModule },
       { path: 'time-slots', module: TimeSlotsModule },
+      { path: 'motorcyclists', module: MotorcyclistsModule },
     ]),
   ],
   controllers: [AppController],

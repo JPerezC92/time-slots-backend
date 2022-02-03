@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { MotorcyclistModel } from '@Motorcyclists/Infrastructure/Motorcyclist.model';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('TimeSlot')
 export class TimeSlotModel {
@@ -13,4 +14,10 @@ export class TimeSlotModel {
 
   @Column()
   isBooked: boolean;
+
+  @ManyToOne(
+    (type) => MotorcyclistModel,
+    (motorcyclistModel) => motorcyclistModel.timeSlots,
+  )
+  motorcyclist: MotorcyclistModel;
 }

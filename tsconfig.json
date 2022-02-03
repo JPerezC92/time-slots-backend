@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@Authentication/*": ["src/Authentication/*"],
+      "@Bookings/*": ["src/Bookings/*"],
+      "@Customers/*": ["src/Customers/*"],
+      "@Motorcyclists/*": ["src/Motorcyclists/*"],
+      "@SharedKernel/*": ["src/SharedKernel/*"],
+      "@TimeSlots/*": ["src/TimeSlots/*"]
+    }
   }
 }

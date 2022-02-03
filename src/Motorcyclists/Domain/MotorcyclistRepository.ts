@@ -2,8 +2,9 @@ import { Motorcyclist } from './Motorcyclists';
 // import { TimeSlot } from 'src/TimeSlot/Domain/TimeSlot';
 
 export interface MotorcyclistRepository {
-  findById(motorcyclistId: string): Promise<Motorcyclist>;
-  findOneAvailable(): Promise<Motorcyclist>;
+  save(motorcyclist: Motorcyclist): Promise<void>;
+  // findById(motorcyclistId: string): Promise<Motorcyclist>;
+  // findOneAvailable(): Promise<Motorcyclist>;
   findAll(): Promise<Motorcyclist[]>;
   // addTimeSlotAssigned({
   //   motorcyclistId,

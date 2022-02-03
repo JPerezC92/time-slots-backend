@@ -9,6 +9,7 @@ import {
 } from 'src/SharedKernel/Infrastructure/EnvVar';
 import { NodeEnv } from '../NodeEnv.type';
 import { Uow } from './Uow.service';
+import { JsUuidGenerator } from '../JsUuidGenerator';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { Uow } from './Uow.service';
           // password: configService.get(EnvVar.DB_PASSWORD),
           database: configService.get(EnvironmentVariables.DB_DATABASE),
           // database: configService.get(EnvVar.DB_NAME),
-          entities: [__dirname + '/../../../**/*.model{.ts,.js}'],
+          entities: [__dirname + '*/../../../**/*.model{.ts,.js}'],
           synchronize: NODE_ENV !== Constant.PRODUCTION,
           logging: NODE_ENV !== Constant.PRODUCTION,
           ssl: NODE_ENV === Constant.PRODUCTION,
@@ -42,7 +43,7 @@ import { Uow } from './Uow.service';
       },
     }),
   ],
-  exports: [Uow],
-  providers: [Uow],
+  exports: [Uow, JsUuidGenerator],
+  providers: [Uow, JsUuidGenerator],
 })
 export class DatabaseModule {}

@@ -1,5 +1,5 @@
 import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { MotorcyclistsModel } from 'src/Motorcyclists/Motorcyclists.model';
+import { MotorcyclistModel } from '@Motorcyclists/Infrastructure/Motorcyclist.model';
 import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
 import { CustomerModel } from 'src/Customers/Infrastructure/Customer.model';
 
@@ -8,9 +8,9 @@ export class BookingsModel {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne((type) => MotorcyclistsModel)
+  @OneToOne((type) => MotorcyclistModel)
   @JoinColumn()
-  motorcyclist: MotorcyclistsModel[];
+  motorcyclist: MotorcyclistModel[];
 
   @OneToOne((type) => TimeSlotModel)
   @JoinColumn()
