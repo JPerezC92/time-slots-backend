@@ -16,7 +16,7 @@ export class MotorcyclistPostController {
     await this._typeormMotorcyclistRepository.save(
       new Motorcyclist({
         motorcyclistId: new MotorcyclistId(this._jsUuidGenerator.generate()),
-        timeSlotAssigned: [],
+        bookingList: [],
       }),
     );
     return 'MotorcyclistPostController';

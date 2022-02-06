@@ -7,7 +7,6 @@ import {
 } from '@SharedKernel/Infrastructure/Response';
 import { MotorcyclistMapper } from '@Motorcyclists/Infrastructure/mappers/MotorcyclistMapper';
 import { TypeormMotorcyclistRepository } from '@Motorcyclists/Infrastructure/TypeormMotorcyclistRepository';
-import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 
 @Controller()
 export class MotorcyclistGetController {
@@ -15,7 +14,6 @@ export class MotorcyclistGetController {
 
   constructor(
     private readonly _typeormMotorcyclistRepository: TypeormMotorcyclistRepository,
-    private readonly _uow: Uow,
   ) {
     this._findMotorcyclists = new FindMotorcyclists({
       motorcyclistRepository: this._typeormMotorcyclistRepository,
@@ -30,6 +28,7 @@ export class MotorcyclistGetController {
       status: StatusType.SUCCESS,
       data: {
         motorcyclists: motorcyclists.map(MotorcyclistMapper.toPersistence),
+        available: motorcyclists.filter((m) => m.isAvailable).length,
       },
     };
   }

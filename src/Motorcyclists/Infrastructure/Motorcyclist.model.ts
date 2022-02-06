@@ -1,17 +1,15 @@
-import { Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import { Entity, OneToMany, PrimaryColumn, RelationId } from 'typeorm';
 
-import { TimeSlotModel } from '@TimeSlots/TimeSlot.model';
+import { BookingModel } from '@Bookings/Bookings.model';
 
 @Entity('Motorcyclist')
 export class MotorcyclistModel {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToMany(
-    (type) => TimeSlotModel,
-    (timeSlotModel) => timeSlotModel.motorcyclist,
-    { eager: true },
-  )
-  @JoinColumn()
-  timeSlots: TimeSlotModel[];
+  @OneToMany(() => BookingModel, (bookingsModel) => bookingsModel.motorcyclist)
+  bookingList: BookingModel[];
+
+  @RelationId((mm: MotorcyclistModel) => mm.bookingList)
+  bookingIdList: string[];
 }

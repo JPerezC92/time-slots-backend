@@ -1,7 +1,8 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AccessPayload } from 'src/Authentication/Domain/AccessPayload';
-import { Uow } from 'src/SharedKernel/Infrastructure/database/Uow.service';
-import { JwtAuthGuard } from '../jwt-auth.guard';
+
+import { AccessPayload } from '@Authentication/Domain/AccessPayload';
+import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
+import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 
 @Controller()
 export class TestController {

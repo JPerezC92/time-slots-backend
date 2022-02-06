@@ -3,7 +3,7 @@ import { TimeSlot } from 'src/TimeSlots/Domain/TimeSlot';
 import { TimeSlotEnd } from 'src/TimeSlots/Domain/TimeSlotEnd';
 import { TimeSlotId } from 'src/TimeSlots/Domain/TimeSlotId';
 import { TimeSlotIsBooked } from 'src/TimeSlots/Domain/TimeSlotIsBooked';
-import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
+import { TimeSlotModel } from '@TimeSlots/Infrastructure/TimeSlot.model';
 import { TimeSlotStart } from 'src/TimeSlots/Domain/TimeSlotStart';
 
 // import parse from 'date-fns/parse';
@@ -17,16 +17,29 @@ export const TimeSlotMapper = {
     // end: format(timeSlot.end, 'HH:mm'),
     timeSlotModel.start = timeSlot.start;
     timeSlotModel.end = timeSlot.end;
-    timeSlotModel.isBooked = timeSlot.isBooked;
     return timeSlotModel;
   },
 
-  toDomain: (timeSlotPersistence: TimeSlotModel): TimeSlot =>
+  toDomain: ({
+    id,
+    end,
+    isBooked,
+    isBookedByCustomer,
+    start,
+  }: TimeSlotModel): TimeSlot =>
     new TimeSlot({
-      timeSlotId: new TimeSlotId(timeSlotPersistence.id),
-      startTime: new TimeSlotStart(timeSlotPersistence.start),
-      endTime: new TimeSlotEnd(timeSlotPersistence.end),
-      isBooked: new TimeSlotIsBooked(timeSlotPersistence.isBooked),
-      isBookedByCustomer: new IsBookedByCustomer(false),
+      timeSlotId: new TimeSlotId(id),
+      startTime: new TimeSlotStart(start),
+      endTime: new TimeSlotEnd(end),
+      isBooked: new TimeSlotIsBooked(Boolean(isBooked)),
+      isBookedByCustomer: new IsBookedByCustomer(Boolean(isBookedByCustomer)),
     }),
+
+  toResponse: (timeSlot: TimeSlot) => ({
+    id: timeSlot.id,
+    start: timeSlot.start,
+    end: timeSlot.end,
+    isBooked: timeSlot.isBooked,
+    isBookedByCustomer: timeSlot.isBookedByCustomer,
+  }),
 };

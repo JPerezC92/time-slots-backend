@@ -1,10 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import {
-  JSendError,
-  StatusType,
-} from 'src/SharedKernel/Infrastructure/Response';
-import { AccessPayload } from '../Domain/AccessPayload';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { AccessPayload } from '@Authentication/Domain/AccessPayload';
+import { JSendError, StatusType } from '@SharedKernel/Infrastructure/Response';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

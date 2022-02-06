@@ -9,20 +9,23 @@ import { BookingsModule } from './bookings/bookings.module';
 import { DatabaseModule } from './SharedKernel/Infrastructure/database/database.module';
 import { TimeSlotsModule } from './TimeSlots/time-slots.module';
 import { MotorcyclistsModule } from './motorcyclists/motorcyclists.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env.development' }),
     AuthenticationModule,
     BookingsModule,
+    CustomersModule,
     DatabaseModule,
     MotorcyclistsModule,
     TimeSlotsModule,
     RouterModule.register([
       { path: 'auth', module: AuthenticationModule },
       { path: 'bookings', module: BookingsModule },
-      { path: 'time-slots', module: TimeSlotsModule },
+      { path: 'customers', module: CustomersModule },
       { path: 'motorcyclists', module: MotorcyclistsModule },
+      { path: 'time-slots', module: TimeSlotsModule },
     ]),
   ],
   controllers: [AppController],

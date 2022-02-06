@@ -8,7 +8,7 @@ import { TimeSlotEnd } from 'src/TimeSlots/Domain/TimeSlotEnd';
 import { TimeSlotId } from 'src/TimeSlots/Domain/TimeSlotId';
 import { TimeSlotIsBooked } from 'src/TimeSlots/Domain/TimeSlotIsBooked';
 import { TimeSlotStart } from 'src/TimeSlots/Domain/TimeSlotStart';
-import { TypeormTimeSlotRepository } from 'src/TimeSlots/TypeormTimeSlotRepository';
+import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
 
 const timeSlotColl = [
   { isBooked: false, start: '8:00', end: '8:30' },
@@ -39,12 +39,10 @@ const timeSlotColl = [
 
 @Controller()
 export class TimeSlotsPostController {
-  private readonly _jsUuidGenerator: JsUuidGenerator;
   constructor(
     private readonly _typeormTimeSlotRepository: TypeormTimeSlotRepository,
-  ) {
-    this._jsUuidGenerator = new JsUuidGenerator();
-  }
+    private readonly _jsUuidGenerator: JsUuidGenerator,
+  ) {}
 
   @Post()
   async run(): Promise<string> {

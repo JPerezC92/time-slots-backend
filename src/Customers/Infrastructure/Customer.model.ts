@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, RelationId } from 'typeorm';
+import { BookingModel } from '@Bookings/Bookings.model';
 
 @Entity('Customer')
 export class CustomerModel {
@@ -16,4 +17,10 @@ export class CustomerModel {
 
   @Column()
   password: string;
+
+  @OneToMany(() => BookingModel, (bookingModel) => bookingModel.customer)
+  bookingList: BookingModel[];
+
+  @RelationId((mm: CustomerModel) => mm.bookingList)
+  bookingIdList: string[];
 }

@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 
+import { AccessPayload } from '@Authentication/Domain/AccessPayload';
+import { FindTimeSlots } from '@TimeSlots/Application/FindTimeSlots';
 import {
   JSendSuccess,
   StatusType,
-} from 'src/SharedKernel/Infrastructure/Response';
-import { FindTimeSlots } from 'src/TimeSlots/Application/FindTimeSlots';
-import { TypeormTimeSlotRepository } from 'src/TimeSlots/TypeormTimeSlotRepository';
-import { TimeSlotMapper } from '../mappers/TimeSlotMapper';
+} from '@SharedKernel/Infrastructure/Response';
+import { TimeSlotMapper } from '@TimeSlots/Infrastructure/mappers/TimeSlotMapper';
+import { TokenDecoder } from '@Authentication/Infrastructure/Guards/tokenDecoder.guard';
+import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
+import { CustomerId } from '@Customers/Domain/CustomerId';
 
 @Controller()
 export class TimeSlotsGetController {
@@ -20,13 +23,16 @@ export class TimeSlotsGetController {
     });
   }
 
+  @UseGuards(TokenDecoder)
   @Get()
-  async run(): Promise<JSendSuccess> {
-    const timeSlots = await this._findTimeSlots.execute();
+  async run(@Req() req: { user?: AccessPayload }): Promise<JSendSuccess> {
+    const timeSlots = await this._findTimeSlots.execute({
+      customerId: req.user && new CustomerId(req.user.id),
+    });
 
     return {
       status: StatusType.SUCCESS,
-      data: { timeSlots: timeSlots.map(TimeSlotMapper.toPersistence) },
+      data: { timeSlots: timeSlots.map(TimeSlotMapper.toResponse) },
     };
   }
 }

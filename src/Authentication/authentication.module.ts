@@ -1,41 +1,25 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule, JwtModuleAsyncOptions } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './Infrastructure/jwt.strategy';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 
-import { AuthenticationPostLoginController } from './Infrastructure/Controllers/AuthenticationPostLogin.controller';
-import { AuthenticationPostRegisterController } from './Infrastructure/Controllers/AuthenticationPostRegister.controller';
-import { DatabaseModule } from 'src/SharedKernel/Infrastructure/database/database.module';
-import {
-  EnvironmentVariables,
-  TEnvironmentVariables,
-} from 'src/SharedKernel/Infrastructure/EnvVar';
-import { JsUuidGenerator } from 'src/SharedKernel/Infrastructure/JsUuidGenerator';
-import { JwtAuthGuard } from './Infrastructure/jwt-auth.guard';
-import { TestController } from './Infrastructure/Controllers/TestController';
-import { TypeormAuthRepository } from './Infrastructure/TypeormAuthRepository';
-import { TypeormCustomerRepository } from 'src/Customers/Infrastructure/TypeormCustomerRepositpry';
-
-const JwtModuleConfig: JwtModuleAsyncOptions = {
-  imports: [ConfigModule],
-  inject: [ConfigService],
-  async useFactory(configService: ConfigService<TEnvironmentVariables>) {
-    return {
-      secret: configService.get(EnvironmentVariables.JWT_SECRET),
-      signOptions: {
-        expiresIn: '1h',
-      },
-    };
-  },
-};
+import { AuthenticationPostLoginController } from '@Authentication/Infrastructure/Controllers/AuthenticationPostLogin.controller';
+import { AuthenticationPostRegisterController } from '@Authentication/Infrastructure/Controllers/AuthenticationPostRegister.controller';
+import { DatabaseModule } from '@SharedKernel/Infrastructure/database/database.module';
+import { JsUuidGenerator } from '@SharedKernel/Infrastructure/JsUuidGenerator';
+import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
+import { jwtModuleConfig } from '@Authentication/Infrastructure/JwtModuleConfig';
+import { TestController } from '@Authentication/Infrastructure/Controllers/TestController';
+import { TypeormAuthRepository } from '@Authentication/Infrastructure/TypeormAuthRepository';
+import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
 
 @Module({
   imports: [
     ConfigModule,
     DatabaseModule,
     PassportModule,
-    JwtModule.registerAsync(JwtModuleConfig),
+    JwtModule.registerAsync(jwtModuleConfig),
   ],
   controllers: [
     AuthenticationPostLoginController,
@@ -49,6 +33,6 @@ const JwtModuleConfig: JwtModuleAsyncOptions = {
     TypeormAuthRepository,
     TypeormCustomerRepository,
   ],
-  exports: [JwtAuthGuard],
+  exports: [JwtAuthGuard, JwtStrategy],
 })
 export class AuthenticationModule {}

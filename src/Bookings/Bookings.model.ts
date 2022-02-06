@@ -1,22 +1,38 @@
-import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryColumn,
+  RelationId,
+} from 'typeorm';
+
+import { CustomerModel } from '@Customers/Infrastructure/Customer.model';
 import { MotorcyclistModel } from '@Motorcyclists/Infrastructure/Motorcyclist.model';
-import { TimeSlotModel } from 'src/TimeSlots/TimeSlot.model';
-import { CustomerModel } from 'src/Customers/Infrastructure/Customer.model';
+import { TimeSlotModel } from '@TimeSlots/Infrastructure/TimeSlot.model';
 
 @Entity('Booking')
-export class BookingsModel {
+export class BookingModel {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne((type) => MotorcyclistModel)
+  // @ManyToOne(() => MotorcyclistModel)
+  @ManyToOne(() => MotorcyclistModel, (mm) => mm.bookingList)
   @JoinColumn()
-  motorcyclist: MotorcyclistModel[];
+  motorcyclist: MotorcyclistModel;
+  @RelationId((bm: BookingModel) => bm.motorcyclist)
+  motorcyclistId: string;
 
-  @OneToOne((type) => TimeSlotModel)
+  @OneToOne(() => TimeSlotModel)
   @JoinColumn()
   timeSlot: TimeSlotModel;
+  @RelationId((bm: BookingModel) => bm.timeSlot)
+  timeSlotId: string;
 
-  @OneToOne((type) => CustomerModel)
+  // @ManyToOne(() => CustomerModel)
+  @ManyToOne(() => CustomerModel, (cm) => cm.bookingList)
   @JoinColumn()
-  ccustomer: CustomerModel;
+  customer: CustomerModel;
+  @RelationId((bm: BookingModel) => bm.customer)
+  customerId: string;
 }

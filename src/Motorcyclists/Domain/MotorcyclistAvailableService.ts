@@ -5,10 +5,10 @@ export class MotorcyclistAvailableService {
     motorcyclistCollection: Motorcyclist[],
   ): Motorcyclist {
     const motorcyclist = motorcyclistCollection.sort((a, b) => {
-      if (a.timeSlots.length > b.timeSlots.length) {
+      if (a.bookingIdList.length > b.bookingIdList.length) {
         return 1;
       }
-      if (a.timeSlots.length < b.timeSlots.length) {
+      if (a.bookingIdList.length < b.bookingIdList.length) {
         return -1;
       }
       return 0;
