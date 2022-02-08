@@ -13,6 +13,7 @@ import { jwtModuleConfig } from '@Authentication/Infrastructure/JwtModuleConfig'
 import { TestController } from '@Authentication/Infrastructure/Controllers/TestController';
 import { TypeormAuthRepository } from '@Authentication/Infrastructure/TypeormAuthRepository';
 import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
+import { AuthenticationGetController } from './Infrastructure/Controllers/AuthenticationGet.controller';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCust
     JwtModule.registerAsync(jwtModuleConfig),
   ],
   controllers: [
+    AuthenticationGetController,
     AuthenticationPostLoginController,
     AuthenticationPostRegisterController,
     TestController,

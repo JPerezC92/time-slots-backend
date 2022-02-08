@@ -10,7 +10,7 @@ import { TimeSlotIsBooked } from 'src/TimeSlots/Domain/TimeSlotIsBooked';
 import { TimeSlotStart } from 'src/TimeSlots/Domain/TimeSlotStart';
 import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
 
-const timeSlotColl = [
+const timeSlotList = [
   { isBooked: false, start: '8:00', end: '8:30' },
   { isBooked: false, start: '8:30', end: '9:00' },
   { isBooked: false, start: '9:00', end: '9:30' },
@@ -47,7 +47,7 @@ export class TimeSlotsPostController {
   @Post()
   async run(): Promise<string> {
     await Promise.all(
-      timeSlotColl.map((timeSlot) => {
+      timeSlotList.map((timeSlot) => {
         this._typeormTimeSlotRepository.save(
           new TimeSlot({
             endTime: new TimeSlotEnd(parse(timeSlot.end, 'HH:mm', new Date())),
