@@ -1,3 +1,4 @@
+import { Booking } from '@Bookings/Domain/Booking';
 import { CustomerId } from './CustomerId';
 import { Email } from './Email';
 import { FirstName } from './FirstName';
@@ -49,5 +50,9 @@ export class Customer {
 
   public static create(props: CustomerProperties): Customer {
     return new Customer({ ...props });
+  }
+
+  public isOwner(booking: Booking): boolean {
+    return booking.customerId === this._customerId.value;
   }
 }

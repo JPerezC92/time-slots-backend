@@ -27,8 +27,7 @@ export class MotorcyclistGetController {
     return {
       status: StatusType.SUCCESS,
       data: {
-        motorcyclists: motorcyclists.map(MotorcyclistMapper.toPersistence),
-        available: motorcyclists.filter((m) => m.isAvailable).length,
+        motorcyclists: motorcyclists.map(MotorcyclistMapper.toResponse),
       },
     };
   }

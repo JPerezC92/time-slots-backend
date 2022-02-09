@@ -15,4 +15,11 @@ export const MotorcyclistMapper = {
       bookingList: bookingIdList.map((m) => new MotorcyclistId(m)),
     });
   },
+
+  toResponse: (motorcyclist: Motorcyclist) => {
+    return {
+      id: motorcyclist.id,
+      isAvailable: motorcyclist.isAvailable,
+    };
+  },
 };

@@ -5,6 +5,7 @@ import { CustomerRepository } from '@Customers/Domain/CustomerRepository';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
 import { TimeSlotRepository } from '@TimeSlots/Domain/TimeSlotRepository';
 import { UseCase } from '@SharedKernel/Domain/UseCase';
+import { BookingRepository } from '@Bookings/Domain/BookingRepository';
 
 interface Input {
   bookingId: BookingId;
@@ -13,14 +14,14 @@ interface Input {
 }
 
 export class CreateBooking implements UseCase<Promise<void>, Input> {
-  private readonly _customerRepository: CustomerRepository;
+  private readonly _bookingRepository: BookingRepository;
   private readonly _timeSlotRepository: TimeSlotRepository;
 
   constructor(props: {
-    customerRepository: CustomerRepository;
+    bookingRepository: BookingRepository;
     timeSlotRepository: TimeSlotRepository;
   }) {
-    this._customerRepository = props.customerRepository;
+    this._bookingRepository = props.bookingRepository;
     this._timeSlotRepository = props.timeSlotRepository;
   }
 
@@ -39,6 +40,6 @@ export class CreateBooking implements UseCase<Promise<void>, Input> {
       timeSlotId: input.timeSlotId,
     });
 
-    await this._customerRepository.saveBooking(booking);
+    await this._bookingRepository.saveBooking(booking);
   }
 }

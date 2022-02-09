@@ -5,7 +5,6 @@ import {
   Post,
   Req,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import * as Joi from 'joi';
 
@@ -18,11 +17,11 @@ import { BookingId } from '@Bookings/Domain/BookingId';
 import { CreateBooking } from '@Bookings/Application/CreateBooking';
 import { CustomerId } from '@Customers/Domain/CustomerId';
 import { JsUuidGenerator } from '@SharedKernel/Infrastructure/JsUuidGenerator';
+import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
-import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
+import { TypeormBookingRepository } from '../TypeormBookingRepository';
 import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
-import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
 
 interface BookingPost {
   readonly timeSlotId: string;
@@ -42,15 +41,16 @@ const bookingPostBodySchema = Joi.object({
 
 @Controller()
 export class BookingsPostController {
-  private readonly BookingsCreator: CreateBooking;
+  private readonly _bookingsCreator: CreateBooking;
+
   constructor(
-    private readonly _customerRepository: TypeormCustomerRepository,
+    private readonly _bookingRepository: TypeormBookingRepository,
     private readonly _jsUuidGenerator: JsUuidGenerator,
     private readonly _timeSlotRepository: TypeormTimeSlotRepository,
     private readonly _uow: Uow,
   ) {
-    this.BookingsCreator = new CreateBooking({
-      customerRepository: this._customerRepository,
+    this._bookingsCreator = new CreateBooking({
+      bookingRepository: this._bookingRepository,
       timeSlotRepository: this._timeSlotRepository,
     });
   }
@@ -64,7 +64,7 @@ export class BookingsPostController {
     const { timeSlotId } = this.validate(_body);
 
     this._uow.transaction(async () => {
-      await this.BookingsCreator.execute({
+      await this._bookingsCreator.execute({
         bookingId: new BookingId(this._jsUuidGenerator.generate()),
         timeSlotId: new TimeSlotId(timeSlotId),
         customerId: new CustomerId(req.user.id),
