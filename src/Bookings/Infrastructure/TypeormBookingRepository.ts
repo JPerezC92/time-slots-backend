@@ -4,16 +4,28 @@ import { Booking } from '@Bookings/Domain/Booking';
 import { BookingRepository } from '@Bookings/Domain/BookingRepository';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 import { BookingMapper } from './mappers/BookingMapper';
-import { BookingModel } from '@Bookings/Bookings.model';
+import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
+import { Customer } from '@Customers/Domain/Customer';
 
 @Injectable()
 export class TypeormBookingRepository implements BookingRepository {
   constructor(private readonly _uow: Uow) {}
 
-  async findById(id: Booking['id']): Promise<Booking | undefined> {
-    const bookingModel = await this._uow.manager.findOne(BookingModel, id);
+  async findById(bookingId: Booking['id']): Promise<Booking | undefined> {
+    const bookingModel = await this._uow.manager.findOne(
+      BookingModel,
+      bookingId,
+    );
 
     if (bookingModel) return BookingMapper.toDomain(bookingModel);
+  }
+
+  async findAllByCustomerId(customerId: Customer['id']): Promise<Booking[]> {
+    const bookingModels = await this._uow.manager.find(BookingModel, {
+      where: { customer: { id: customerId } },
+    });
+
+    return bookingModels.map(BookingMapper.toDomain);
   }
 
   async saveBooking(booking: Booking): Promise<void> {
@@ -27,8 +39,8 @@ export class TypeormBookingRepository implements BookingRepository {
           WHERE (SELECT COUNT(b.id) From Booking b WHERE b.motorcyclistId = m.id) < 3 
           LIMIT 1
           )
-          )
-          `,
+      )
+      `,
       [booking.id, booking.timeSlotId, booking.customerId],
     );
   }

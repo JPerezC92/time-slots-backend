@@ -1,4 +1,4 @@
-import { BookingModel } from '@Bookings/Bookings.model';
+import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
 import { Booking } from '@Bookings/Domain/Booking';
 import { BookingId } from '@Bookings/Domain/BookingId';
 import { CustomerId } from '@Customers/Domain/CustomerId';
@@ -9,9 +9,9 @@ export const BookingMapper = {
   toPersistence: (booking: Booking): BookingModel => {
     const bookingsModel = new BookingModel();
     bookingsModel.id = booking.id;
-    // bookingsModel.motorcyclistId = booking.motorcyclistId;
-    // bookingsModel.timeSlotId = booking.timeSlotId;
-    // bookingsModel.customerId = booking.customerId;
+    bookingsModel.motorcyclistId = booking.motorcyclistId;
+    bookingsModel.timeSlotId = booking.timeSlotId;
+    bookingsModel.customerId = booking.customerId;
 
     return bookingsModel;
   },

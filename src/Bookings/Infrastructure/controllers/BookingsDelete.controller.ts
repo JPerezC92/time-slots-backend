@@ -8,16 +8,16 @@ import {
 } from '@nestjs/common';
 import * as Joi from 'joi';
 
-import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
-import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
-import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
-import { DeleteBooking } from '@Bookings/Application/DeleteBooking';
-import { TypeormBookingRepository } from '../TypeormBookingRepository';
 import { AccessPayload } from '@Authentication/Domain/AccessPayload';
+import { DeleteBooking } from '@Bookings/Application/DeleteBooking';
 import {
   JSendSuccess,
   StatusType,
 } from '@SharedKernel/Infrastructure/Response';
+import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
+import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
+import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
+import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 
 interface BookingDelete {
   readonly bookingId: string;
