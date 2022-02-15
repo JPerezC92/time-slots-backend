@@ -1,11 +1,10 @@
 import { Booking } from '@Bookings/Domain/Booking';
 import { BookingId } from '@Bookings/Domain/BookingId';
+import { BookingRepository } from '@Bookings/Domain/BookingRepository';
 import { CustomerId } from '@Customers/Domain/CustomerId';
-import { CustomerRepository } from '@Customers/Domain/CustomerRepository';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
 import { TimeSlotRepository } from '@TimeSlots/Domain/TimeSlotRepository';
 import { UseCase } from '@SharedKernel/Domain/UseCase';
-import { BookingRepository } from '@Bookings/Domain/BookingRepository';
 
 interface Input {
   bookingId: BookingId;

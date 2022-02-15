@@ -20,19 +20,18 @@ export const TimeSlotMapper = {
     return timeSlotModel;
   },
 
-  toDomain: ({
-    id,
-    end,
-    isBooked,
-    isBookedByCustomer,
-    start,
-  }: TimeSlotModel): TimeSlot =>
+  toDomain: (
+    { id, end, start, booking }: TimeSlotModel,
+    customerId?: string,
+  ): TimeSlot =>
     new TimeSlot({
-      timeSlotId: new TimeSlotId(id),
-      startTime: new TimeSlotStart(start),
       endTime: new TimeSlotEnd(end),
-      isBooked: new TimeSlotIsBooked(Boolean(isBooked)),
-      isBookedByCustomer: new IsBookedByCustomer(Boolean(isBookedByCustomer)),
+      isBooked: new TimeSlotIsBooked(Boolean(booking)),
+      isBookedByCustomer: new IsBookedByCustomer(
+        customerId && booking ? booking.customerId === customerId : false,
+      ),
+      startTime: new TimeSlotStart(start),
+      timeSlotId: new TimeSlotId(id),
     }),
 
   toResponse: (timeSlot: TimeSlot) => ({

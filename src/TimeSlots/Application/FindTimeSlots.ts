@@ -17,7 +17,7 @@ export class FindTimeSlots implements UseCase<Promise<TimeSlot[]>, Input> {
 
   execute({ customerId }: Input): Promise<TimeSlot[]> {
     if (customerId) {
-      return this._timeSlotRepository.findAllByCustomerId({
+      return this._timeSlotRepository.findAllWithCustomerId({
         customerId: customerId.value,
       });
     }

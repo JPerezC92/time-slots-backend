@@ -11,58 +11,27 @@ export class TypeormTimeSlotRepository implements TimeSlotRepository {
   constructor(private readonly _uow: Uow) {}
 
   async findAll(): Promise<TimeSlot[]> {
-    const timeSlotModelCollection = (await this._uow.manager
-      .createQueryBuilder()
-      .select('TimeSlot.*')
-      .addSelect(
-        (qb) =>
-          qb
-            .subQuery()
-            .select('b.id IS NOT NULL')
-            .from('Booking', 'b')
-            .where('b.timeSlotId = TimeSlot.id'),
-        'isBooked',
-      )
-      .from(TimeSlotModel, '')
-      .orderBy('TimeSlot.start', 'ASC')
-      .printSql()
-      .getRawMany()) as TimeSlotModel[];
+    const timeSlotModelCollection = await this._uow.manager.find(
+      TimeSlotModel,
+      { order: { start: 'ASC' } },
+    );
 
-    return timeSlotModelCollection.map(TimeSlotMapper.toDomain);
+    return timeSlotModelCollection.map((v) => TimeSlotMapper.toDomain(v));
   }
 
-  async findAllByCustomerId({
+  async findAllWithCustomerId({
     customerId,
   }: {
     customerId: string;
   }): Promise<TimeSlot[]> {
-    const timeSlotModelCollection = (await this._uow.manager
-      .createQueryBuilder()
-      .select('TimeSlot.*')
-      .addSelect(
-        (qb) =>
-          qb
-            .subQuery()
-            .select('b.id IS NOT NULL')
-            .from('Booking', 'b')
-            .where('b.timeSlotId = TimeSlot.id'),
-        'isBooked',
-      )
-      .addSelect(
-        (qb) =>
-          qb
-            .subQuery()
-            .select('b.id IS NOT NULL')
-            .from('Booking', 'b')
-            .where('b.timeSlotId = TimeSlot.id AND b.customerId = :customerId'),
-        'isBookedByCustomer',
-      )
-      .from(TimeSlotModel, '')
-      .orderBy('TimeSlot.start', 'ASC')
-      .setParameter('customerId', customerId)
-      .getRawMany()) as TimeSlotModel[];
+    const timeSlotModelCollection = await this._uow.manager.find(
+      TimeSlotModel,
+      { order: { start: 'ASC' } },
+    );
 
-    return timeSlotModelCollection.map(TimeSlotMapper.toDomain);
+    return timeSlotModelCollection.map((v) =>
+      TimeSlotMapper.toDomain(v, customerId),
+    );
   }
 
   async save(timeSlot: TimeSlot): Promise<void> {
