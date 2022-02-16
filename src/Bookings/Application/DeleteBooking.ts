@@ -1,5 +1,7 @@
 import { Booking } from '@Bookings/Domain/Booking';
+import { BookingNotFound } from '@Bookings/Domain/BookingNotFound';
 import { BookingRepository } from '@Bookings/Domain/BookingRepository';
+import { CustomerNotFound } from '@Customers/Domain/CustomerNotFound';
 import { CustomerRepository } from '@Customers/Domain/CustomerRepository';
 import { UseCase } from '@SharedKernel/Domain/UseCase';
 
@@ -26,9 +28,9 @@ export class DeleteBooking implements UseCase<Promise<void>, Input> {
       this._customerRepository.findById(customerId),
     ]);
 
-    if (!booking) throw new Error('Booking not found');
+    if (!booking) throw new BookingNotFound(bookingId);
 
-    if (!customer) throw new Error('Customer not found');
+    if (!customer) throw new CustomerNotFound(customerId);
 
     if (customer.isOwner(booking)) {
       await this._bookingRepository.deleteBooking(booking);
