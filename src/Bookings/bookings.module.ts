@@ -6,6 +6,7 @@ import { BookingsGetController } from './Infrastructure/controllers/BookingsGet.
 import { BookingsPostController } from '@Bookings/Infrastructure/controllers/BookingsPost.controller';
 import { CustomersModule } from '@Customers/customers.module';
 import { DatabaseModule } from '@SharedKernel/Infrastructure/database/database.module';
+import { ExceptionHandlerModule } from '@SharedKernel/Infrastructure/exception-handler/exception-handler.module';
 import { TimeSlotsModule } from '@TimeSlots/time-slots.module';
 import { TokenDecoder } from '@Authentication/Infrastructure/Guards/tokenDecoder.guard';
 import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
@@ -20,6 +21,7 @@ import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookin
     AuthenticationModule,
     CustomersModule,
     DatabaseModule,
+    ExceptionHandlerModule,
     TimeSlotsModule,
   ],
   providers: [TokenDecoder, TypeormBookingRepository],

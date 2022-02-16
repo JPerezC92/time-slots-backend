@@ -1,27 +1,31 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import * as Joi from 'joi';
 
 import { AccessPayload } from '@Authentication/Domain/AccessPayload';
+import { ApiController } from '@SharedKernel/Infrastructure/ApiController';
+import { ApiExceptionListener } from '@SharedKernel/Infrastructure/exception-handler/ApiExceptionListener';
+import {
+  ApiExceptionsMapping,
+  ExceptionsMap,
+} from '@SharedKernel/Infrastructure/exception-handler/ApiExceptionMapping';
+import { BookingId } from '@Bookings/Domain/BookingId';
+import { CreateBooking } from '@Bookings/Application/CreateBooking';
+import { CustomerId } from '@Customers/Domain/CustomerId';
+import { HttpForbidden } from '@SharedKernel/Infrastructure/HttpForbidden';
+import { InvalidRequest } from '@SharedKernel/Infrastructure/InvalidRequest';
 import {
   JSendSuccess,
   StatusType,
 } from '@SharedKernel/Infrastructure/Response';
-import { BookingId } from '@Bookings/Domain/BookingId';
-import { CreateBooking } from '@Bookings/Application/CreateBooking';
-import { CustomerId } from '@Customers/Domain/CustomerId';
 import { JsUuidGenerator } from '@SharedKernel/Infrastructure/JsUuidGenerator';
 import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
+import { TimeSlotAlreadyBooked } from '@TimeSlots/Domain/TimeSlotAlreadyBooked';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
-import { TypeormBookingRepository } from '../TypeormBookingRepository';
+import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
 import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
+import { TimeSlotNotFound } from '@TimeSlots/Domain/TimeSlotNotFound';
+import { HttpNotFound } from '@SharedKernel/Infrastructure/HttpNotFound';
 
 interface BookingPost {
   readonly timeSlotId: string;
@@ -40,15 +44,20 @@ const bookingPostBodySchema = Joi.object({
 });
 
 @Controller()
-export class BookingsPostController {
+export class BookingsPostController extends ApiController {
   private readonly _bookingsCreator: CreateBooking;
 
   constructor(
+    readonly apiExceptionListener: ApiExceptionListener,
+    readonly apiExceptionsMapping: ApiExceptionsMapping,
+
     private readonly _bookingRepository: TypeormBookingRepository,
     private readonly _jsUuidGenerator: JsUuidGenerator,
     private readonly _timeSlotRepository: TypeormTimeSlotRepository,
     private readonly _uow: Uow,
   ) {
+    super(apiExceptionsMapping, apiExceptionListener);
+
     this._bookingsCreator = new CreateBooking({
       bookingRepository: this._bookingRepository,
       timeSlotRepository: this._timeSlotRepository,
@@ -63,26 +72,33 @@ export class BookingsPostController {
   ): Promise<JSendSuccess> {
     const { timeSlotId } = this.validate(_body);
 
-    this._uow.transaction(async () => {
-      await this._bookingsCreator.execute({
-        bookingId: new BookingId(this._jsUuidGenerator.generate()),
-        timeSlotId: new TimeSlotId(timeSlotId),
-        customerId: new CustomerId(req.user.id),
+    try {
+      await this._uow.transaction(async () => {
+        await this._bookingsCreator.execute({
+          bookingId: new BookingId(this._jsUuidGenerator.generate()),
+          customerId: new CustomerId(req.user.id),
+          timeSlotId: new TimeSlotId(timeSlotId),
+        });
       });
-    });
 
-    return { status: StatusType.SUCCESS, data: null };
+      return { status: StatusType.SUCCESS, data: null };
+    } catch (error) {
+      throw this.apiExceptionListener.onException(error);
+    }
   }
 
   public validate(bookingPost: BookingPost): BookingPostDto {
     const { error } = bookingPostBodySchema.validate(bookingPost);
-    if (error) {
-      throw new BadRequestException({
-        status: StatusType.FAIL,
-        data: error.message,
-      });
-    }
+
+    if (error) throw new InvalidRequest(error.message);
 
     return new BookingPostDto(bookingPost);
+  }
+
+  protected exceptions(): ExceptionsMap {
+    return {
+      [TimeSlotAlreadyBooked.name]: HttpForbidden,
+      [TimeSlotNotFound.name]: HttpNotFound,
+    };
   }
 }

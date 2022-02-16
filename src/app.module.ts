@@ -1,15 +1,15 @@
-import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthenticationModule } from './Authentication/authentication.module';
 import { BookingsModule } from './bookings/bookings.module';
-import { DatabaseModule } from './SharedKernel/Infrastructure/database/database.module';
-import { TimeSlotsModule } from './TimeSlots/time-slots.module';
-import { MotorcyclistsModule } from './motorcyclists/motorcyclists.module';
 import { CustomersModule } from './customers/customers.module';
+import { DatabaseModule } from './SharedKernel/Infrastructure/database/database.module';
+import { MotorcyclistsModule } from './motorcyclists/motorcyclists.module';
+import { TimeSlotsModule } from './TimeSlots/time-slots.module';
 
 @Module({
   imports: [

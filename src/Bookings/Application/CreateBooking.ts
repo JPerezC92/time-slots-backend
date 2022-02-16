@@ -2,7 +2,9 @@ import { Booking } from '@Bookings/Domain/Booking';
 import { BookingId } from '@Bookings/Domain/BookingId';
 import { BookingRepository } from '@Bookings/Domain/BookingRepository';
 import { CustomerId } from '@Customers/Domain/CustomerId';
+import { TimeSlotAlreadyBooked } from '@TimeSlots/Domain/TimeSlotAlreadyBooked';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
+import { TimeSlotNotFound } from '@TimeSlots/Domain/TimeSlotNotFound';
 import { TimeSlotRepository } from '@TimeSlots/Domain/TimeSlotRepository';
 import { UseCase } from '@SharedKernel/Domain/UseCase';
 
@@ -24,19 +26,17 @@ export class CreateBooking implements UseCase<Promise<void>, Input> {
     this._timeSlotRepository = props.timeSlotRepository;
   }
 
-  async execute(input: Input): Promise<void> {
-    const timeSlot = await this._timeSlotRepository.findById(
-      input.timeSlotId.value,
-    );
+  async execute({ timeSlotId, customerId, bookingId }: Input): Promise<void> {
+    const timeSlot = await this._timeSlotRepository.findById(timeSlotId.value);
 
-    if (!timeSlot) throw new Error('TimeSlot not found');
+    if (!timeSlot) throw new TimeSlotNotFound(timeSlotId.value);
 
-    if (timeSlot.isBooked) throw new Error('TimeSlot is already booked');
+    if (timeSlot.isBooked) throw new TimeSlotAlreadyBooked(timeSlot);
 
     const booking = Booking.makeBooking({
-      bookingId: input.bookingId,
-      customerId: input.customerId,
-      timeSlotId: input.timeSlotId,
+      bookingId: bookingId,
+      customerId: customerId,
+      timeSlotId: timeSlotId,
     });
 
     await this._bookingRepository.saveBooking(booking);

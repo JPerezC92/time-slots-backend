@@ -16,5 +16,5 @@ export interface JSendError {
 
 export interface JSendFailure {
   status: StatusType.FAIL;
-  data: Record<string, string> | string;
+  message: string;
 }
