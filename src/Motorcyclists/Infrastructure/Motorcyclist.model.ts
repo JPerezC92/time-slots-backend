@@ -1,6 +1,6 @@
 import { Entity, OneToMany, PrimaryColumn, RelationId } from 'typeorm';
 
-import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
+import { BookingModel } from 'src/Bookings/Infrastructure/Bookings.model';
 
 @Entity('Motorcyclist')
 export class MotorcyclistModel {

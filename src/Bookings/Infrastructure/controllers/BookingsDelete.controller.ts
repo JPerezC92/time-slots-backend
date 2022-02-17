@@ -8,19 +8,19 @@ import {
   ApiExceptionsMapping,
   ExceptionsMap,
 } from '@SharedKernel/Infrastructure/exception-handler/ApiExceptionMapping';
-import { BookingNotFound } from '@Bookings/Domain/BookingNotFound';
-import { DeleteBooking } from '@Bookings/Application/DeleteBooking';
+import { BookingNotFound } from 'src/Bookings/Domain/BookingNotFound';
+import { DeleteBooking } from 'src/Bookings/Application/DeleteBooking';
 import { HttpNotFound } from '@SharedKernel/Infrastructure/HttpNotFound';
 import { InvalidRequest } from '@SharedKernel/Infrastructure/InvalidRequest';
 import {
   JSendSuccess,
   StatusType,
 } from '@SharedKernel/Infrastructure/Response';
+import { CustomerNotFound } from '@Customers/Domain/CustomerNotFound';
 import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
-import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
+import { TypeormBookingRepository } from 'src/Bookings/Infrastructure/TypeormBookingRepository';
 import { TypeormCustomerRepository } from '@Customers/Infrastructure/TypeormCustomerRepositpry';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
-import { CustomerNotFound } from '@Customers/Domain/CustomerNotFound';
 
 interface BookingDelete {
   readonly bookingId: string;

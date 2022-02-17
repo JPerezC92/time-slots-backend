@@ -19,6 +19,6 @@ export class MotorcyclistPostController {
         bookingList: [],
       }),
     );
-    return 'MotorcyclistPostController';
+    return 'motorcyclist created';
   }
 }

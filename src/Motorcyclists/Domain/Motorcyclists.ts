@@ -1,6 +1,5 @@
-import { Booking } from '@Bookings/Domain/Booking';
-import { BookingId } from '@Bookings/Domain/BookingId';
-import { MotorcyclistId } from './MotorcyclistId';
+import { BookingId } from 'src/Bookings/Domain/BookingId';
+import { MotorcyclistId } from '@Motorcyclists/Domain/MotorcyclistId';
 
 export class Motorcyclist {
   private readonly _maxWorkLoad = 3;
@@ -21,17 +20,4 @@ export class Motorcyclist {
     this._motorcyclistId = props.motorcyclistId;
     this.bookingIdList = props.bookingList;
   }
-
-  // public assignTimeSlot(timeSlot: TimeSlot) {
-  //   this.timeSlotAssigned = [
-  //     ...this.timeSlotAssigned,
-  //     new TimeSlotId(timeSlot.id),
-  //   ];
-  // }
-
-  // public unassignTimeSlot(timeSlot: TimeSlot) {
-  //   this.timeSlotAssigned = this.timeSlotAssigned.filter(
-  //     (timeSlotId) => timeSlotId.value !== timeSlot.id
-  //   );
-  // }
 }

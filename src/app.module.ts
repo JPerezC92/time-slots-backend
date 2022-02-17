@@ -4,12 +4,12 @@ import { RouterModule } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthenticationModule } from './Authentication/authentication.module';
-import { BookingsModule } from './bookings/bookings.module';
-import { CustomersModule } from './customers/customers.module';
-import { DatabaseModule } from './SharedKernel/Infrastructure/database/database.module';
-import { MotorcyclistsModule } from './motorcyclists/motorcyclists.module';
-import { TimeSlotsModule } from './TimeSlots/time-slots.module';
+import { AuthenticationModule } from '@Authentication/authentication.module';
+import { BookingsModule } from 'src/Bookings/bookings.module';
+import { CustomersModule } from '@Customers/customers.module';
+import { DatabaseModule } from '@SharedKernel/Infrastructure/database/database.module';
+import { MotorcyclistsModule } from '@Motorcyclists/motorcyclists.module';
+import { TimeSlotsModule } from '@TimeSlots/time-slots.module';
 
 @Module({
   imports: [

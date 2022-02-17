@@ -1,4 +1,4 @@
-import { Booking } from '@Bookings/Domain/Booking';
+import { Booking } from 'src/Bookings/Domain/Booking';
 import { Customer } from '@Customers/Domain/Customer';
 
 export interface BookingRepository {

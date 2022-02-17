@@ -1,6 +1,6 @@
-import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
-import { Booking } from '@Bookings/Domain/Booking';
-import { BookingId } from '@Bookings/Domain/BookingId';
+import { BookingModel } from 'src/Bookings/Infrastructure/Bookings.model';
+import { Booking } from 'src/Bookings/Domain/Booking';
+import { BookingId } from 'src/Bookings/Domain/BookingId';
 import { CustomerId } from '@Customers/Domain/CustomerId';
 import { MotorcyclistId } from '@Motorcyclists/Domain/MotorcyclistId';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';

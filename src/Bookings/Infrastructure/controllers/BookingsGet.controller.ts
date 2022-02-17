@@ -1,14 +1,14 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 
 import { AccessPayload } from '@Authentication/Domain/AccessPayload';
-import { FindBookings } from '@Bookings/Application/FindBookings';
+import { FindBookings } from 'src/Bookings/Application/FindBookings';
 import {
   JSendSuccess,
   StatusType,
 } from '@SharedKernel/Infrastructure/Response';
 import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
-import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
-import { BookingMapper } from '../mappers/BookingMapper';
+import { TypeormBookingRepository } from 'src/Bookings/Infrastructure/TypeormBookingRepository';
+import { BookingMapper } from 'src/Bookings/Infrastructure/mappers/BookingMapper';
 
 @Controller()
 export class BookingsGetController {

@@ -26,9 +26,8 @@ export class TimeSlotsGetController {
   @UseGuards(TokenDecoder)
   @Get()
   async run(@Req() req: { user?: AccessPayload }): Promise<JSendSuccess> {
-    const timeSlots = await this._findTimeSlots.execute({
-      customerId: req.user && new CustomerId(req.user.id),
-    });
+    const customerId = req.user && new CustomerId(req.user.id);
+    const timeSlots = await this._findTimeSlots.execute({ customerId });
 
     return {
       status: StatusType.SUCCESS,

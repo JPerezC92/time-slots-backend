@@ -1,6 +1,6 @@
-import { Booking } from '@Bookings/Domain/Booking';
-import { BookingNotFound } from '@Bookings/Domain/BookingNotFound';
-import { BookingRepository } from '@Bookings/Domain/BookingRepository';
+import { Booking } from 'src/Bookings/Domain/Booking';
+import { BookingNotFound } from 'src/Bookings/Domain/BookingNotFound';
+import { BookingRepository } from 'src/Bookings/Domain/BookingRepository';
 import { CustomerNotFound } from '@Customers/Domain/CustomerNotFound';
 import { CustomerRepository } from '@Customers/Domain/CustomerRepository';
 import { UseCase } from '@SharedKernel/Domain/UseCase';

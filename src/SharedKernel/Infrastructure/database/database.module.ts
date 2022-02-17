@@ -2,14 +2,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Constant } from 'src/SharedKernel/Infrastructure/Constant';
+import { Constant } from '@SharedKernel/Infrastructure/Constant';
 import {
   EnvironmentVariables,
   TEnvironmentVariables,
-} from 'src/SharedKernel/Infrastructure/EnvVar';
-import { NodeEnv } from '../NodeEnv.type';
-import { Uow } from './Uow.service';
-import { JsUuidGenerator } from '../JsUuidGenerator';
+} from '@SharedKernel/Infrastructure/EnvVar';
+import { JsUuidGenerator } from '@SharedKernel/Infrastructure/JsUuidGenerator';
+import { NodeEnv } from '@SharedKernel/Infrastructure/NodeEnv.type';
+import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 
 @Module({
   imports: [

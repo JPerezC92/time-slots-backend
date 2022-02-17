@@ -1,6 +1,6 @@
-import { Column, Entity, OneToOne, PrimaryColumn, RelationId } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
 
-import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
+import { BookingModel } from 'src/Bookings/Infrastructure/Bookings.model';
 
 @Entity('TimeSlot')
 export class TimeSlotModel {
@@ -17,8 +17,6 @@ export class TimeSlotModel {
     eager: true,
   })
   booking: BookingModel;
-  // @RelationId((tm: TimeSlotModel) => tm.booking)
-  // bookingId: string;
 
   isBooked = false;
 

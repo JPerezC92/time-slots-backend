@@ -1,5 +1,5 @@
-import { Booking } from '@Bookings/Domain/Booking';
-import { BookingRepository } from '@Bookings/Domain/BookingRepository';
+import { Booking } from 'src/Bookings/Domain/Booking';
+import { BookingRepository } from 'src/Bookings/Domain/BookingRepository';
 import { Customer } from '@Customers/Domain/Customer';
 import { UseCase } from '@SharedKernel/Domain/UseCase';
 

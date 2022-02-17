@@ -8,8 +8,8 @@ import {
   ApiExceptionsMapping,
   ExceptionsMap,
 } from '@SharedKernel/Infrastructure/exception-handler/ApiExceptionMapping';
-import { BookingId } from '@Bookings/Domain/BookingId';
-import { CreateBooking } from '@Bookings/Application/CreateBooking';
+import { BookingId } from 'src/Bookings/Domain/BookingId';
+import { CreateBooking } from 'src/Bookings/Application/CreateBooking';
 import { CustomerId } from '@Customers/Domain/CustomerId';
 import { HttpForbidden } from '@SharedKernel/Infrastructure/HttpForbidden';
 import { InvalidRequest } from '@SharedKernel/Infrastructure/InvalidRequest';
@@ -21,7 +21,7 @@ import { JsUuidGenerator } from '@SharedKernel/Infrastructure/JsUuidGenerator';
 import { JwtAuthGuard } from '@Authentication/Infrastructure/Guards/jwt-auth.guard';
 import { TimeSlotAlreadyBooked } from '@TimeSlots/Domain/TimeSlotAlreadyBooked';
 import { TimeSlotId } from '@TimeSlots/Domain/TimeSlotId';
-import { TypeormBookingRepository } from '@Bookings/Infrastructure/TypeormBookingRepository';
+import { TypeormBookingRepository } from 'src/Bookings/Infrastructure/TypeormBookingRepository';
 import { TypeormTimeSlotRepository } from '@TimeSlots/Infrastructure/TypeormTimeSlotRepository';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
 import { TimeSlotNotFound } from '@TimeSlots/Domain/TimeSlotNotFound';

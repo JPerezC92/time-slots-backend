@@ -1,4 +1,4 @@
-import { Booking } from '@Bookings/Domain/Booking';
+import { Booking } from 'src/Bookings/Domain/Booking';
 import { CustomerId } from './CustomerId';
 import { Email } from './Email';
 import { FirstName } from './FirstName';

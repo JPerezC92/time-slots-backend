@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { Booking } from '@Bookings/Domain/Booking';
-import { BookingRepository } from '@Bookings/Domain/BookingRepository';
+import { Booking } from 'src/Bookings/Domain/Booking';
+import { BookingRepository } from 'src/Bookings/Domain/BookingRepository';
 import { Uow } from '@SharedKernel/Infrastructure/database/Uow.service';
-import { BookingMapper } from './mappers/BookingMapper';
-import { BookingModel } from '@Bookings/Infrastructure/Bookings.model';
+import { BookingMapper } from 'src/Bookings/Infrastructure/mappers/BookingMapper';
+import { BookingModel } from 'src/Bookings/Infrastructure/Bookings.model';
 import { Customer } from '@Customers/Domain/Customer';
 
 @Injectable()

@@ -61,6 +61,6 @@ export class TimeSlotsPostController {
         );
       }),
     );
-    return 'Created';
+    return 'TimeSlots created';
   }
 }
